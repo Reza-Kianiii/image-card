@@ -1,0 +1,119 @@
+/* body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 555px;
+  
+} */
+.Container{
+    display: flex;
+    width: 605px;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-top:50px;
+ 
+
+}
+
+
+.flip-box {
+  
+    background-color: transparent;
+    width: 200px;
+    height: 100px;
+    border: 1px solid black;
+  }
+  
+  .flip-box-inner {
+  
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  .flip-box.active .flip-box-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-box-front,
+  .flip-box-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  
+    backface-visibility: hidden;
+  }
+  
+  .flip-box-front {
+    background-color: #bbb;
+    color: black;
+  }
+  
+  .flip-box-back {
+    background-color: dodgerblue;
+    color: white;
+    transform: rotateY(180deg);
+  }
+  
+  img{
+      width: 100%;
+      height: 100%;
+  }
+
+
+  .Btn_show{
+      padding: 10px;
+      border-radius: 5px;
+     
+  }
+  .flip-box.active_Select .flip-box-inner {
+    transform: rotateY(180deg);
+  }
+
+  .Container_Module{
+      display:none ;
+      width: 300px;
+      height: 100px;
+      position:  absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      background-color:lightgoldenrodyellow;
+      border: 2px solid black;
+      box-shadow: 0 0 50px yellow;
+      z-index: 999;
+      animation: move 1s;
+  }
+  .Module{
+      width: 100%;
+      height: 100%;
+      text-align: center; 
+  }
+  .Btn_r{
+      padding: 5px 10px;
+
+  }
+
+
+
+@keyframes move{
+    0%{
+        top: -100px;
+    }
+    100%{
+        top: 50%;
+    }
+}
+
+
+
+@keyframes back{
+    0%{
+        top: 50%;
+    }
+    100% {
+        top: -100px;
+    }
+}
