@@ -143,7 +143,7 @@ function Manage_click(e, index) {
     let btn=document.querySelector('.btn')
     All_cards_active=document.querySelectorAll('.flip-box.active_Select');
     Time_is_over(e);
-    if(All_cards_active.length==12){
+    if(All_cards_active.length==11){
 
       console.log(All_cards_active) 
       model.style.display='block'
