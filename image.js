@@ -98,11 +98,37 @@ let All_cards_active;
 let storedcardid = [];
 let filteredArray;
 
+let clickcurrent;
+
 function Manage_click(e, index) {
- 
-  e.target.closest(".flip-box").classList.add("active");
-  let id = e.target.closest(".flip-box").id;
-  storedcardid.push({ idelement: id, indexelement: index });
+  let id;
+  
+  
+  //  btn جلو گیری کردن از اضافی زدن کلیک  
+  
+  if(clickcurrent!==index){
+    
+    
+    if(storedcardid.length<2){
+      e.target.closest(".flip-box").classList.add("active");
+      id = e.target.closest(".flip-box").id;
+      storedcardid.push({ idelement: id, indexelement: index });
+      clickcurrent=index;
+    }
+    else{
+      return
+    }
+
+    
+  }
+  
+  
+
+  
+  
+
+
+  
 
   setTimeout(() => {
     filteredArray = storedcardid.filter((item, index, array) => {
@@ -133,7 +159,7 @@ function Manage_click(e, index) {
         },500)
       })
     }
-  }, 2000);
+  }, 500);
   
     
 
