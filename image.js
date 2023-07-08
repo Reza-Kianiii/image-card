@@ -1,4 +1,6 @@
 let model = document.querySelector(".Container_Module");
+let Timeout; // privent of start timeout 
+let timout2;
 let Path_image = [
   "./image/Apple(1).jpg",
   "./image/cherry(1).jpg",
@@ -16,8 +18,9 @@ window.onload = () => {
 
 function Start() {
   
-  Array_random_src=[];
+  Array_random_src=[]; 
   Array_random_src2=[]
+  storedcardid=[]
   Set_up_random_image();
   setTimeout(() => {
     Show_cards();
@@ -94,101 +97,147 @@ function Generate_element(value) {
 }
 let id;
 
-let All_cards_active;
-let storedcardid = [];
+let All_cards_active; // همه کارت های اکتیو
+let storedcardidone=[]
+let storedcardid = []; // دخیره کردن کارت های مشابه
 let filteredArray;
 
 let clickcurrent;
 
+let count_index=[]  //ایندکس ایتم های کیلک شده
+
 function Manage_click(e, index) {
-  let id;
+
+
+  
+  if(storedcardid.length==0){
+    console.log('reza kiani')
+    storedcardid.push({id:e.target.closest('.flip-box').id , index:index})
+    show_card(storedcardid)
+    Time_is_over_one_Select(storedcardid)
+    console.log(storedcardid)
+  }
+  else if(storedcardid.length>0 && storedcardid.length<2){
+    clearTimeout(Timeout)
+    Prevent_repeated_clicks_on_the_button(e,index, storedcardid);
+  }
+  
+
+
+ let number_card= document.querySelectorAll('.flip-box').length;
+ let active_card=document.querySelectorAll('.flip-box.active_Select')
+ if(active_card.length==number_card){
+   model.style.display='block';
+ }
+ 
+
+}
+
+
+
+
+
+function Time_is_over_one_Select(value) {
+  
+ Timeout= setTimeout(() => {
+    console.log('mohsen kiani')
+    value.forEach((item,index)=>{
+   document.querySelectorAll('.flip-box')[item.index].classList.remove('active')  
+   storedcardid=[]
+   })
+  }, 2000);
+  
+ 
+}
+
+
+function Time_Over_All(value){
+ timout2= setTimeout(() => {
+    value.forEach((item,index)=>{
+      document.querySelectorAll('.flip-box')[item.index].classList.remove('active');
+    })
+
+    storedcardid=[]
+  }, 1000);
+}
+
+
+
+
+
+function show_card(value){
   
   
-  //  btn جلو گیری کردن از اضافی زدن کلیک  
-  
-  if(clickcurrent!==index){
+console.log(value)
+  value.forEach((item,index)=>{
     
+    document.querySelectorAll('.flip-box')[item.index].classList.add('active');
+  })
+
+ 
+}
+
+  
+
+
+
+
+function cards_Similar() {
     
-    if(storedcardid.length<2){
-      e.target.closest(".flip-box").classList.add("active");
-      id = e.target.closest(".flip-box").id;
-      storedcardid.push({ idelement: id, indexelement: index });
-      clickcurrent=index;
+
+
+
+filteredArray = storedcardid.filter((item, index, array) => {
+        return array.some(
+          (otherItem) =>
+            otherItem.id === item.id &&
+            otherItem.index !== item.index
+        );
+      });
+
+      console.log(filteredArray + ' fitelrarra')
+      
+  let All_cards = document.querySelectorAll(".flip-box");
+  filteredArray.forEach((item) => {
+    All_cards[item.index].classList.remove("active");
+    All_cards[item.index].classList.add("active_Select");
+  });
+
+  
+
+}
+function clearselectcard(){
+
+}
+
+function Prevent_repeated_clicks_on_the_button(e,index,value){
+console.log('reza')
+
+  let itemnew=e.target.closest('.flip-box').id;
+
+  value.forEach((item,index_for)=>{
+    if(item.id===itemnew && item.index===index){
+      e.target.closest('.flip-box').classList.remove('active');
+      storedcardid=[]
     }
     else{
-      return
+      storedcardid.push({id:itemnew,index:index});
+      show_card(storedcardid);
+      cards_Similar()
+      Time_Over_All(storedcardid)
+    
     }
-
-    
-  }
-  
-  
-
-  
-  
-
-
-  
-
-  setTimeout(() => {
-    filteredArray = storedcardid.filter((item, index, array) => {
-      return array.some(
-        (otherItem) =>
-          otherItem.idelement === item.idelement &&
-          otherItem.indexelement !== item.indexelement
-      );
-    });
-  
-    
-    let btn=document.querySelector('.btn')
-    All_cards_active=document.querySelectorAll('.flip-box.active_Select');
-    Time_is_over(e);
-    if(All_cards_active.length==11){
-
-      console.log(All_cards_active) 
-      model.style.display='block'
-   
-      btn.addEventListener('click',()=>{
-        
-        Array.from(All_cards_active).forEach(item=>{
-          item.classList.remove('active_Select');
-        })
-        setTimeout(()=>{
-          Btn_Start()
-
-        },500)
-      })
-    }
-  }, 500);
-  
-    
-
+  })
 }
 
-function Time_is_over(e) {
-  setTimeout(() => {
-    e.target.closest(".flip-box").classList.remove("active");
-    storedcardid = [];
-  }, 1000);
-  if (filteredArray.length) {
-    cards_Similar(filteredArray);
-  }
 
-  
-}
 
-function cards_Similar(value) {
-    
-   
-  let All_cards = document.querySelectorAll(".flip-box");
-  value.forEach((item) => {
-    All_cards[item.indexelement].classList.remove("active");
-    All_cards[item.indexelement].classList.add("active_Select");
-  
-  });
-}
 
-let getcard;
+
+
+
+
+
 function Show_cards() {
   getcard = document.querySelectorAll(".flip-box");
   Array.from(getcard).forEach((item) => {
@@ -200,6 +249,5 @@ function Show_cards() {
     setTimeout(() => {
       item.classList.remove("active");
     }, 3000);
-  });
-  
+  })
 }
